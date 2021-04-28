@@ -5,6 +5,7 @@ class RepetitionCode(ErrorCorrectingCode):
 
     def __init__(self, word_length):
         self.word_length = word_length
+        super().__init__()
 
     def encode(self, data):
         encoded_data = []
