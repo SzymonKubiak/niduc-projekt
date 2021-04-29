@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class NoisyChannel():
+class BinarySymmetricChannel():
     def __init__(self, error_probability):
         # Probability of an error occurring for each sent bit
         self.error_probability = error_probability
