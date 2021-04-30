@@ -7,7 +7,7 @@ from utilities.data_comparator import DataComparator
 
 cyclic_code = CyclicCode(4, [1, 0, 1, 1], 0)
 hamming_code = HammingCode()
-repetitition_code = RepetitionCode(3)
+repetitition_code = RepetitionCode(3, 4)
 data_generator = DataGenerator()
 data_comparator = DataComparator()
 bsc_channel = BinarySymmetricChannel(0.1)

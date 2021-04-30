@@ -3,15 +3,15 @@ from codes.error_correcting_code import ErrorCorrectingCode
 
 class RepetitionCode(ErrorCorrectingCode):
 
-    def __init__(self, word_length):
-        self.word_length = word_length
-        super().__init__()
+    def __init__(self, word_size, block_size):
+        self.word_size = word_size
+        self.data_block_size = block_size
 
-    def encode(self, data):
+    def encode(self, data_vector):
         encoded_data = []
 
-        for bit in data:
-            encoded_data.extend([bit] * self.word_length)
+        for bit in data_vector:
+            encoded_data.extend([bit] * self.word_size)
 
         return encoded_data
 
@@ -19,18 +19,10 @@ class RepetitionCode(ErrorCorrectingCode):
         decoded_data = []
         data_iter = iter(encoded_data)
 
-        while True:
-            try:
-                word = []
-
-                for _ in range(self.word_length):
-                    word.append(next(data_iter))
-
-                decoded_word = self._decode_word_by_majority(word)
-                decoded_data.append(decoded_word)
-
-            except StopIteration:
-                break
+        for i in range(0, len(encoded_data), self.word_size):
+            word = encoded_data[i:i + self.word_size]
+            decoded_word = self._decode_word_by_majority(word)
+            decoded_data.append(decoded_word)
 
         return decoded_data
 
