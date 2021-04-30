@@ -6,6 +6,7 @@ class RepetitionCode(ErrorCorrectingCode):
     def __init__(self, word_size, block_size):
         self.word_size = word_size
         self.data_block_size = block_size
+        self.encoded_packet_size = word_size * block_size
 
     def encode(self, data_vector):
         encoded_data = []

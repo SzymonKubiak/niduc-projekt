@@ -8,7 +8,7 @@ class CyclicCode:
         self.generator_polynomial = generator_polynomial
         self.initial_filler = initial_filler
 
-        self.encoded_block_size = block_size + self.check_sum_len
+        self.encoded_packet_size = block_size + self.check_sum_len
 
     def bitwise_xor(self, x, y):
         return int(x != y)
@@ -36,9 +36,9 @@ class CyclicCode:
     def decode(self, data_vector):
         decoded_data = []
         # decode each data block separately
-        for i in range(0, len(data_vector), self.encoded_block_size):
+        for i in range(0, len(data_vector), self.encoded_packet_size):
             decoded_block = self.decode_block(
-                data_vector[i:i+self.encoded_block_size])
+                data_vector[i:i+self.encoded_packet_size])
             decoded_data.extend(decoded_block)
 
         return decoded_data
@@ -70,8 +70,8 @@ class CyclicCode:
     # Builds error correction list for calcuating the position of a signle-bit error
     def get_error_list(self):
         error_list = []
-        for i in range(self.encoded_block_size):
-            error_data = [0] * self.encoded_block_size
+        for i in range(self.encoded_packet_size):
+            error_data = [0] * self.encoded_packet_size
             error_data[i] = 1
             error_remainder = self.get_remainder(error_data)
             error_list.append(error_remainder)
