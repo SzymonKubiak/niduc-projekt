@@ -1,10 +1,12 @@
-import csv
+from utilities.csv_write import * 
 from codes.cyclic_code import CyclicCode
 from codes.hamming_code import HammingCode
 from codes.repetition_code import RepetitionCode
 from utilities.bsc_channel import BinarySymmetricChannel
 from utilities.data_generator import DataGenerator
 from utilities.data_comparator import DataComparator
+
+
 
 hamming_code = HammingCode()
 data_generator = DataGenerator()
@@ -38,11 +40,7 @@ def test_code(code_object, number_of_bits, noise_generator, data_generator, data
     return data_comparator.statistics(data, decoded_data, code_object.data_block_size)
 
 
-def write_array_to_csv(array,file_name):
-    with open(file_name + '.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
-        for row in array:
-            writer.writerow(row)
+
 
 
 
