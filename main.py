@@ -18,6 +18,8 @@ data_comparator = DataComparator()
 #####################################################
 
 
+
+
 def test_code(code_object, number_of_bits, noise_generator, data_generator, data_comparator):
 
     # raw data vector generation
@@ -53,6 +55,13 @@ number_of_data_bits = 399
 ## function uses promiles, because iterating over float is impossible
 ## Here is tested coding with variable noise channel
 
+#####################################################
+# Output CSV file will include such values as:      #
+# Noise percentage in BSC                           #
+# Number of sent packages                           #
+# Number of uncorrectly sent packages               #
+#####################################################
+
 csv_array_for_variable_noise = []
 for noise_promiles in range (noise_promiles_range):
     bsc_channel = BinarySymmetricChannel(noise_promiles / 1000)
@@ -66,6 +75,12 @@ write_array_to_csv(csv_array_for_variable_noise, "data_variable_noise")
 
 
 ## second testing - Here we are testing codes with constant noise 
+
+#####################################################
+# Output CSV file will include such values as:      #
+# Number of sent packages                           #
+# Number of uncorrectly sent packages               #
+#####################################################
 
 number_of_repetitions = 1000
 csv_array_for_constant_noise = []
