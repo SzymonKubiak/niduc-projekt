@@ -1,3 +1,4 @@
+import csv
 from codes.cyclic_code import CyclicCode
 from codes.hamming_code import HammingCode
 from codes.repetition_code import RepetitionCode
@@ -5,49 +6,58 @@ from utilities.bsc_channel import BinarySymmetricChannel
 from utilities.data_generator import DataGenerator
 from utilities.data_comparator import DataComparator
 
-cyclic_code = CyclicCode(4, [1, 0, 1, 1], 0)
 hamming_code = HammingCode()
-repetitition_code = RepetitionCode(3, 4)
 data_generator = DataGenerator()
 data_comparator = DataComparator()
 bsc_channel = BinarySymmetricChannel(0.1)
 
+#####################################################
+# Output CSV file will include such values as:      #
+# Number of sent packages                           #
+# Number of uncorrectly sent packages               #
+# Noise percentage in BSC                           #
+#####################################################
 
-data = data_generator.generate_data_vector(hamming_code.data_block_size, 4)
-print("Original data: ", data)
 
-encoded_data_hamming = hamming_code.encode(data)
-print("Encoded with Hamming code: ", encoded_data_hamming)
+def test_code(code_object, number_of_bits, noise_generator, data_generator, data_comparator):
 
-received_data_hamming = bsc_channel.transmit_data(encoded_data_hamming)
-print("Received from BSC channel: ", received_data_hamming)
+    # raw data vector generation
+    data = data_generator.generate_data_vector(code_object.data_block_size, number_of_bits)
 
-decoded_data_hamming = hamming_code.decode(encoded_data_hamming)
-print("Decoded with Hamming code: ", decoded_data_hamming)
+    # encoding raw data
+    encoded_data = code_object.encode(data)
 
-data_comparator.compare_data_vectors(
-    data, decoded_data_hamming, hamming_code.data_block_size, hamming_code.encoded_packet_size)
+    # put through noisy channel
+    recieved_data = noise_generator.transmit_data(encoded_data)
 
-encoded_data_repetition = repetitition_code.encode(data)
-print("Encoded with Repetition code: ", encoded_data_repetition)
+    # decode recieved data
+    decoded_data = code_object.decode(recieved_data)
 
-received_data_repetition = bsc_channel.transmit_data(encoded_data_repetition)
-print("Received from BSC channel: ", received_data_repetition)
+    # function returns total number of sent packages, and number of unsuccesfully sent packages
+    return data_comparator.statistics(data, decoded_data, code_object.data_block_size)
 
-decoded_data_repetition = repetitition_code.decode(received_data_repetition)
-print("Decoded with Repetition code: ", decoded_data_repetition)
 
-data_comparator.compare_data_vectors(
-    data, decoded_data_repetition, repetitition_code.data_block_size, repetitition_code.encoded_packet_size)
+def write_array_to_csv(array,file_name):
+    with open(file_name + '.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        for row in array:
+            writer.writerow(row)
 
-encoded_data_cyclic = cyclic_code.encode(data)
-print("Encoded with Cyclic code: ", encoded_data_cyclic)
 
-received_data_cyclic = bsc_channel.transmit_data(encoded_data_cyclic)
-print("Received from BSC channel: ", received_data_cyclic)
+noise_promiles_range = 500
+number_of_repetitions = 50
+number_of_data_bits = 399
 
-decoded_data_cyclic = cyclic_code.decode(received_data_cyclic)
-print("Decoded with Cyclic code: ", decoded_data_cyclic)
 
-data_comparator.compare_data_vectors(
-    data, decoded_data_cyclic, cyclic_code.data_block_size, cyclic_code.encoded_packet_size)
+# function uses promiles, because iterating over float is impossible
+csv_array = []
+for noise_promiles in range (noise_promiles_range):
+    bsc_channel = BinarySymmetricChannel(noise_promiles / 1000)
+    for repetition in range (number_of_repetitions):
+        stats = test_code(hamming_code, number_of_data_bits, bsc_channel,data_generator, data_comparator)
+        total_sent_packages = stats[0]
+        correctly_sent_packages = stats[1]
+        csv_array.append([noise_promiles, total_sent_packages, correctly_sent_packages])
+
+write_array_to_csv(csv_array, "data")
+
