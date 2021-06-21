@@ -30,7 +30,7 @@ def test_code(code_object):
 
 
 def write_array_to_csv(array, file_name):
-    with open(f"statistics/crc_test_results/{file_name}.csv", 'w', newline='') as file:
+    with open(f"crc_test_results/{file_name}.csv", 'w', newline='') as file:
         writer = csv.writer(file)
         for row in array:
             writer.writerow(row)
