@@ -4,16 +4,16 @@ import csv
 error_packets = []
 
 # Get a list of all uncorrectly sent packets from CSV:
-with open('../data_constant_noise.csv') as input_csv:
+with open('data_constant_noise.csv') as input_csv:
     data = csv.reader(input_csv, delimiter=',')
     error_packets = [int(row[1]) for row in data]
 
-fig = plt.figure(figsize=(10, 7))
+fig, ax1 = plt.subplots()
 
 # Creating plot
-plt.boxplot(error_packets)
+ax1.boxplot(error_packets, vert=False)
 
-plt.title("Wykres pudełkowy błędnie przesłanych pakietów")
+ax1.set_xlabel("Liczba błędnie zdekodowanych pakietów")
 
 
 # show plot

@@ -8,7 +8,7 @@ bsc_channel = BinarySymmetricChannel(0.1)
 data_generator = DataGenerator()
 data_comparator = DataComparator()
 number_of_data_bits = 999
-number_of_repetitions = 100
+number_of_repetitions = 400
 
 
 def test_code(code_object):
@@ -30,7 +30,7 @@ def test_code(code_object):
 
 
 def write_array_to_csv(array, file_name):
-    with open(f"crc_test_results/{file_name}.csv", 'w', newline='') as file:
+    with open(f"statistics/crc_test_results/{file_name}.csv", 'w', newline='') as file:
         writer = csv.writer(file)
         for row in array:
             writer.writerow(row)
