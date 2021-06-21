@@ -9,6 +9,7 @@ class CyclicCode:
         self.initial_filler = initial_filler
 
         self.encoded_packet_size = block_size + self.check_sum_len
+        self.error_list = self.get_error_list()
 
     def bitwise_xor(self, x, y):
         return int(x != y)
@@ -58,11 +59,10 @@ class CyclicCode:
         return decoded_block
 
     def correct_errors(self, encoded_block, error_remainder):
-        error_list = self.get_error_list()
 
         if (error_remainder != [0] * self.check_sum_len):
-            wrong_bit = encoded_block[error_list.index(error_remainder)]
-            encoded_block[error_list.index(
+            wrong_bit = encoded_block[self.error_list.index(error_remainder)]
+            encoded_block[self.error_list.index(
                 error_remainder)] = 0 if wrong_bit == 1 else 1
 
         return encoded_block[:self.data_block_size]
