@@ -32,6 +32,14 @@ class DataComparator:
 
         return
 
+    def statistic_bits(self, original_data, recieved_data):
+        error_bits = 0
+        for i in range(len(original_data)):
+            if original_data[i] != recieved_data[i]:
+                error_bits += 1
+
+        return [len(original_data), error_bits]
+
     def statistics(self, original_data, recieved_data, data_block_size):
         data_packets = len(original_data) // data_block_size
 

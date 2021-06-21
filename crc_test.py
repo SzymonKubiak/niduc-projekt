@@ -26,7 +26,7 @@ def test_code(code_object):
     decoded_data = code_object.decode(recieved_data)
 
     # function returns total number of sent packages, and number of unsuccesfully sent packages
-    return data_comparator.statistics(data, decoded_data, code_object.data_block_size)
+    return data_comparator.statistic_bits(data, decoded_data)
 
 
 def write_array_to_csv(array, file_name):
