@@ -36,17 +36,17 @@ def multiple_average_and_deviation(array, valuable_column_index, interval):
     return output_array
 
 
-constant_noise = read_from_csv("data_constant_noise")
-constant_noise_stats = []
-constant_noise_stats.append(average_and_deviation(constant_noise, 1))
-write_array_to_csv(constant_noise_stats,"constant_noise_stats")
+# constant_noise = read_from_csv("data_constant_noise")
+# constant_noise_stats = []
+# constant_noise_stats.append(average_and_deviation(constant_noise, 1))
+# write_array_to_csv(constant_noise_stats,"constant_noise_stats")
 
 
 
-variable_noise = read_from_csv("data_variable_noise")
+variable_noise = read_from_csv("data_variable_noise_repetition1")
 variable_noise_stats = []
 variable_noise_stats= multiple_average_and_deviation(variable_noise, 2, 50)
-write_array_to_csv(variable_noise_stats,"variable_noise_stats")
+write_array_to_csv(variable_noise_stats,"variable_noise_stats_repetition1")
 
 
 
