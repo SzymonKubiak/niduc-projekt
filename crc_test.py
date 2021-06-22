@@ -4,7 +4,7 @@ from utilities.bsc_channel import BinarySymmetricChannel
 from utilities.data_generator import DataGenerator
 from utilities.data_comparator import DataComparator
 
-bsc_channel = BinarySymmetricChannel(0.1)
+bsc_channel = BinarySymmetricChannel(0.06)
 data_generator = DataGenerator()
 data_comparator = DataComparator()
 number_of_data_bits = 999
